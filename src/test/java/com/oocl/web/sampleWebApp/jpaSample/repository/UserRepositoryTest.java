@@ -18,7 +18,7 @@ import java.util.List;
 public class UserRepositoryTest {
 
   @Autowired
-  private UserRepository userRepository;
+   UserRepository userRepository;
 
   @Test
   public void test_should_return_user_when_the_user_exist() {
@@ -34,6 +34,57 @@ public class UserRepositoryTest {
     Assertions.assertEquals(1, userList.size());
     Assertions.assertEquals("test", userList.get(0).getName());
   }
+  @Test
+  public void return_all_user_by_the_sanme_name(){
+    User user=new User("zhangsan");
+    User user1=new User("zhangsan");
+    User user2=new User("lisi");
+    userRepository.save(user);
+    userRepository.save(user1);
+    userRepository.save(user2);
 
+    List<User> users = userRepository.findUsersByName("zhangsan");
+
+    Assertions.assertEquals(2, users.size());
+  }
+  @Test
+  public void delete_user_by_name(){
+    User user=new User("zhangsan");
+    User user1=new User("zhangsan");
+    User user2=new User("lisi");
+    userRepository.save(user);
+    userRepository.save(user1);
+    userRepository.save(user2);
+    userRepository.delete(user);
+    List<User> users = userRepository.findAll();
+
+    Assertions.assertEquals(2, users.size());
+  }
+  @Test
+  public void delete_by_name(){
+    User user=new User("zhangsan");
+    User user1=new User("zhangsan");
+    User user2=new User("lisi");
+    userRepository.save(user);
+    userRepository.save(user1);
+    userRepository.save(user2);
+    userRepository.deleteSelf(user);
+    List<User> users = userRepository.findAll();
+    Assertions.assertEquals(2, users.size());
+  }
+//@Test
+//  public void test_should_exceptionr_when_the_username_lager64() {
+//    //given
+//    User user = new User();
+//    user.setName("aTestaTestaTestaTestaTestaTestaTestaTestaTestaTestaTestaTestaTestaTestaTest");
+//    userRepository.save(user);
+//
+//    //when
+//    List<User> userList = userRepository.findAll();
+//
+//    Assertions.assertEquals(1, userList.size());
+//    Assertions.assertEquals("aTestaTestaTestaTestaTestaTestaTestaTestaTestaTestaTestaTestaTestaTestaTest", userList.get(0).getName());
+//
+//  }
 }
 
